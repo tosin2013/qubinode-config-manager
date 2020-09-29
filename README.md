@@ -29,6 +29,7 @@ How to run
 ```
 cat >extra_vars.json<<EOF
 {
+   "admin_user": ${USER},
    "configure_secerts": true,
    "rhsm_username": "yourusername",
    "rhsm_password": "changeme",
@@ -41,23 +42,23 @@ cat >extra_vars.json<<EOF
    "idm_admin_pwd": "changeme"
 }
 EOF
-ansible-playbook  project/qubinode-config-management.yml -e "@extra_vars.json"
+ansible-playbook  playbooks/qubinode-config-management.yml -e "@extra_vars.json" -k
 rm extra_vars.json
 ```
 
 2. Configure rhelX_host_vars
 ```
-ansible-playbook  project/qubinode-config-management.yml --extra-vars "collect_generic_info=true"
+ansible-playbook  playbooks/qubinode-config-management.yml --extra-vars "collect_generic_info=true"
 ```
 
 3. Configure KVM variables
 ```
-ansible-playbook  project/qubinode-config-management.yml --extra-vars "configure_kvm_host=true"
+ansible-playbook  playbooks/qubinode-config-management.yml --extra-vars "configure_kvm_host=true"
 ```
 
 4. Configure IDM Variables
 ```
-ansible-playbook  project/qubinode-config-management.yml --extra-vars "configure_idm_info=true" --extra-vars "vm_teardown=false"
+ansible-playbook  playbooks/qubinode-config-management.yml --extra-vars "configure_idm_info=true" --extra-vars "vm_teardown=false"
 ```
 
 5. Configure RHEL VM Variables
@@ -90,7 +91,7 @@ cat >extra_vars.json<<EOF
 }
 EOF
 
-ansible-playbook  project/qubinode-config-management.yml  -e "@extra_vars.json"
+ansible-playbook  playbooks/qubinode-config-management.yml  -e "@extra_vars.json"
 ```
 
 6. Configure Generic VM Variables
@@ -98,7 +99,7 @@ ansible-playbook  project/qubinode-config-management.yml  -e "@extra_vars.json"
 cat >extra_vars.json<<EOF
 {
    "configure_generic_vm_info": true,
-   "cloud_init_vm_image_url": "https://download.fedoraproject.org/pub/fedora/linux/releases/32/Cloud/x86_64/images/Fedora-Cloud-Base-32-1.6.x86_64.raw.xz",
+   "cloud_init_vm_image_url": "https://download.fedoraplaybooks.org/pub/fedora/linux/releases/32/Cloud/x86_64/images/Fedora-Cloud-Base-32-1.6.x86_64.raw.xz",
    "expand_os_disk": "no",
    "generic_hash": null,
    "generic_release": "Fedora-Cloud-Base-32-1.6",
@@ -121,7 +122,7 @@ cat >extra_vars.json<<EOF
 }
 EOF
 
-ansible-playbook  project/qubinode-config-management.yml  -e "@extra_vars.json"
+ansible-playbook  playbooks/qubinode-config-management.yml  -e "@extra_vars.json"
 ```
 
 Dependencies

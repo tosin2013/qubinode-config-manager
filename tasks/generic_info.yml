@@ -2,8 +2,8 @@
   template:
     src: templates/rhel8_host_vars.j2
     dest:  /{{ inventory_dir }}/rhel8_host_vars
-    owner: admin
-    group: admin
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
     mode: 0666
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == '8')
 
@@ -11,7 +11,7 @@
   template:
     src: templates/rhel7_host_vars.j2
     dest:  /{{ inventory_dir }}/rhel7_host_vars
-    owner: admin
-    group: admin
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
     mode: 0666
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == '7')

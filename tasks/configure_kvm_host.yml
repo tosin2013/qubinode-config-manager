@@ -47,6 +47,6 @@
   template:
     src: templates/kvm_host.yml.j2
     dest:  /{{ inventory_dir }}/kvm_host.yml
-    owner: admin
-    group: admin
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
     mode: 0666

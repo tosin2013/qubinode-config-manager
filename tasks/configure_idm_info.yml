@@ -2,6 +2,6 @@
   template:
     src: templates/idm_dns.yml.j2
     dest:  /{{ vm_inventory_dir }}/idm_dns.yml
-    owner: admin
-    group: admin
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
     mode: 0666

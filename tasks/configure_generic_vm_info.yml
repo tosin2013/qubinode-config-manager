@@ -2,6 +2,6 @@
   template:
     src: templates/generic_vm.yml.j2
     dest:  "/{{ vm_inventory_dir }}/{{ generic_name }}.yml"
-    owner: admin
-    group: admin
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
     mode: 0666
