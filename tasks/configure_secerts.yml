@@ -9,7 +9,7 @@
 - name: Copying over passwords file
   template:
     src: templates/passwords.j2
-    dest:  /{{ env_dir }}/passwords
+    dest:  "{{ env_dir }}/passwords"
     owner: "{{ admin_user }}"
     group: "{{ admin_user }}"
     mode: 0775

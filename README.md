@@ -42,7 +42,13 @@ cat >extra_vars.json<<EOF
    "idm_admin_pwd": "changeme"
 }
 EOF
+
+# use ansible playbook command 
 ansible-playbook  playbooks/qubinode-config-management.yml -e "@extra_vars.json" -k
+
+# use python3 playbook
+sudo python3 lib/qubinode_ansible_runner.py  qubinode-config-management.yml
+
 rm extra_vars.json
 ```
 
