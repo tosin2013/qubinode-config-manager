@@ -25,7 +25,43 @@ Configure the following your defaults/main.yml
 
 How to run
 ------------
+Get the qubinode installer code
+```shell=
+cd $HOME
+curl -OL https://raw.githubusercontent.com/tosin2013/qubinode-installer/release-2.4.3/lib/get_qubinode.sh
+chmod +x get_qubinode.sh
+# review code 
+vim get_qubinode.sh
+./get_qubinode.sh
+```
+
 1. start with the configure_secerts.yml 
+
+**using Ansible runner**
+```
+cat >env/extravars<<EOF
+{
+   "admin_user": ${USER},
+   "configure_secerts": true,
+   "rhsm_username": "yourusername",
+   "rhsm_password": "changeme",
+   "rhsm_pass": "{{ rhsm_password }}",
+   "rhsm_org": "",
+   "rhsm_activationkey": "",
+   "admin_user_password": "changeme",
+   "idm_ssh_user": "yourusername",
+   "idm_dm_pwd": 'thisisaveryL0ngpaSSw0rd',
+   "idm_admin_pwd": "changeme"
+}
+EOF
+
+# use python3 playbook via ansible runner 
+sudo python3 lib/qubinode_ansible_runner.py  qubinode-config-management.yml
+
+rm env/extravars
+```
+
+**using Ansible w/o runner**
 ```
 cat >extra_vars.json<<EOF
 {
@@ -42,13 +78,8 @@ cat >extra_vars.json<<EOF
    "idm_admin_pwd": "changeme"
 }
 EOF
-
 # use ansible playbook command 
 ansible-playbook  playbooks/qubinode-config-management.yml -e "@extra_vars.json" -k
-
-# use python3 playbook
-sudo python3 lib/qubinode_ansible_runner.py  qubinode-config-management.yml
-
 rm extra_vars.json
 ```
 
