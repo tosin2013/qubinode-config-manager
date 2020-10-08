@@ -37,6 +37,29 @@ vim get_qubinode.sh
 
 1. start with the configure_secerts.yml 
 
+**using Ansible runner API**
+```
+cat >extra_vars.json<<EOF
+{
+   "admin_user": "${USER}",
+   "configure_secerts": true,
+   "rhsm_username": "yourusername",
+   "rhsm_password": "changeme",
+   "rhsm_pass": "changeme",
+   "rhsm_org": "",
+   "rhsm_activationkey": "",
+   "admin_user_password": "changeme",
+   "idm_ssh_user": "yourusername",
+   "idm_dm_pwd": "thisisaveryL0ngpaSSw0rd",
+   "idm_admin_pwd": "changeme"
+}
+EOF
+# example url request 
+curl -k -i -H "Content-Type: application/json" --data '@extra_vars.json' https://localhost:5001/api/v1/playbooks/qubinode-config-management.yml -X POST
+
+rm extra_vars.json
+```
+
 **using Ansible runner**
 ```
 cat >env/extravars<<EOF
@@ -79,8 +102,13 @@ cat >extra_vars.json<<EOF
 }
 EOF
 # use ansible playbook command 
-ansible-playbook  playbooks/qubinode-config-management.yml -e "@extra_vars.json" -k
+sudo ansible-playbook  playbooks/qubinode-config-management.yml -e "@extra_vars.json" 
 rm extra_vars.json
+```
+
+The above command options will result in the file below.
+```
+env/passwords 
 ```
 
 2. Configure rhelX_host_vars
