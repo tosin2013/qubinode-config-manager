@@ -53,12 +53,15 @@ Developer / Contribuitor Instructions
 Below is an example of intregrating [Ansible Collection: containers.podman](https://github.com/containers/ansible-podman-collections) into qubinode-config manager
 1. update requirements.yml with target repo 
 ```
-vim playbooks/requirements.yml 
+cat >playbooks/requirements-collection.yml<<EOF
+collections:
+- name: containers.podman
+EOF
 ```
 
-2. 
+2. Update roles with ansible galaxy
 ```
-ansible-galaxy install -r "$(pwd)/playbooks/requirements.yml" --force
+ansible-galaxy collection install -r  "$(pwd)/playbooks/requirements-collection.yml" --force
 ```
 
 Dependencies
