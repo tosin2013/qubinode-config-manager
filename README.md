@@ -34,6 +34,22 @@ chmod +x get_qubinode.sh
 vim get_qubinode.sh
 ./get_qubinode.sh
 ```
+Test
+----
+```
+curl -k -i https://localhost:5001/api/v1/playbooks -X GET
+```
+
+Project Instructions 
+----
+
+[Qubinode Installer Instructions](https://github.com/tosin2013/qubinode-config-manager/wiki/Qubinode-Installer-Instructions) 
+
+[CloudCTL Instructions](https://github.com/tosin2013/qubinode-config-manager/wiki/CloudCTL-Instructions)
+
+
+Developer / Contribuitor Instructions
+------------------------------------- 
 
 1. start with the configure_secerts.yml 
 
@@ -111,7 +127,8 @@ The above command options will result in the file below.
 env/passwords 
 ```
 
-2. Configure rhelX_host_vars
+2. Configure host vars for machine 
+Thhis will generate required host files for 
 ```
 ansible-playbook  playbooks/qubinode-config-management.yml --extra-vars "collect_generic_info=true"
 ```
