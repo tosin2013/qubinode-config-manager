@@ -75,7 +75,7 @@ cat >playbooks/redis-server-example.yml<<EOF
   tasks:
     - name: Run redis container
       containers.podman.podman_container:
-        name: {{ container_name }}
+        name: "{{ container_name }}"
         image: redis
         command: redis-server --appendonly yes
         state: present
@@ -87,7 +87,14 @@ EOF
 
 4. test to verify  redis server playbook exists 
 ```
-curl -k -i https://localhost:5001/api/v1/playbooks -X GET | grep redis
+$ curl -k -s   https://localhost:5001/api/v1/playbooks -X GET  | jq '.data[] |.[] | select(. == "redis-server-example.yml")'
+"redis-server-example.yml"
+
+```
+
+or 
+```
+$ curl -k -i https://localhost:5001/api/v1/playbooks -X GET | grep redis
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100   561  100   561    0     0  40071      0 --:--:-- --:--:-- --:--:-- 40071
@@ -96,28 +103,42 @@ curl -k -i https://localhost:5001/api/v1/playbooks -X GET | grep redis
 
 5. Deploy Using Ansible Runner API
 ```
-
 $ curl -k -i -H "Content-Type: application/json"  --data '{"container_name": "developermode" }' https://localhost:5001/api/v1/playbooks/redis-server-example.yml -X POST
+
 HTTP/1.0 202 ACCEPTED
 Content-Type: application/json
-Content-Length: 103
+Content-Length: 104
 Server: Werkzeug/1.0.1 Python/3.8.5
-Date: Sun, 11 Oct 2020 15:15:44 GMT
+Date: Sun, 11 Oct 2020 17:14:03 GMT
 
-{"status": "STARTED", "msg": "running", "data": {"play_uuid": "a24d1cea-0bd4-11eb-b1c9-0e2562210695"}}
+{"status": "STARTED", "msg": "starting", "data": {"play_uuid": "291d72aa-0be5-11eb-91fe-0e2562210695"}}
+```
+
+**Get status of run**
+```
+$ curl -k -i https://localhost:5001/api/v1/playbooks/291d72aa-0be5-11eb-91fe-0e2562210695
+HTTP/1.0 200 OK
+Content-Type: application/json
+Content-Length: 750
+Server: Werkzeug/1.0.1 Python/3.8.5
+Date: Sun, 11 Oct 2020 17:14:25 GMT
+
+{"status": "OK", "msg": "successful", "data": {"task": "Run redis container", "task_metadata": {"playbook": "redis-server-example.yml", "playbook_uuid": "f803cee3-0e7e-4be9-bc41-926441607427", "play": "Using Podman collection", "play_uuid": "0e256221-0695-ae3b-344c-000000000005", "play_pattern": "localhost", "task": "Run redis container", "task_uuid": "0e256221-0695-ae3b-344c-000000000007", "task_action": "containers.podman.podman_container", "task_args": "", "task_path": "/home/cloud_user/qubinode-installer/playbooks/redis-server-example.yml:5", "name": "Run redis container", "is_conditional": false, "pid": 3607, "created": "2020-10-11T17:14:07.044947"}, "role": "", "last_task_num": 18, "skipped": 0, "failed": 0, "ok": 2, "failures": {}}}
 
 ```
 
 6. Deploy using Ansible Runner python script
 ```
-sudo python3 lib/qubinode_ansible_runner.py redis-server-example.yml
+sudo python3 lib/qubinode_ansible_runner.py redis-server-example.yml  --extravars '{ "container_name": "developermode_python" }' 
 ```
 
 7. Check that container is running
 ```
-$ sudo podman ps 
+$ sudo podman ps
 CONTAINER ID  IMAGE                           COMMAND               CREATED         STATUS             PORTS   NAMES
-8dd779e9c589  docker.io/library/redis:latest  redis-server --ap...  17 seconds ago  Up 17 seconds ago          myredis
+463adf4d8ae6  docker.io/library/redis:latest  redis-server --ap...  10 minutes ago  Up 10 minutes ago          developermode
+e9d8df68f118  docker.io/library/redis:latest  redis-server --ap...  22 seconds ago  Up 22 seconds ago          developermode_python
+
 ```
 
 Dependencies
