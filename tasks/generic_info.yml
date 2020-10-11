@@ -7,6 +7,16 @@
     mode: 0666
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == '8')
 
+
+- name: Copying over fedora32_hosts_vars this will be used for generic variables on FEDORA 32
+  template:
+    src: templates/fedora32_hosts_vars.j2
+    dest:  /{{ inventory_dir }}/fedora32_hosts_vars
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
+    mode: 0666
+  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == '8')
+
 - name: Copying over rhel7_host_vars this will be used for generic variables on RHEL 7.x
   template:
     src: templates/rhel7_host_vars.j2
