@@ -94,11 +94,37 @@ $ curl -k -s   https://localhost:5001/api/v1/playbooks -X GET  | jq '.data[] |.[
 
 or 
 ```
-$ curl -k -i https://localhost:5001/api/v1/playbooks -X GET | grep redis
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100   561  100   561    0     0  40071      0 --:--:-- --:--:-- --:--:-- 40071
-{"status": "OK", "msg": "21 playbook found", "data": {"playbooks": ["tower_server.yml", "qubinode-config-management.yml", "requirements.yml", "redis-server-example.yml", "setup_kvmhost.yml", "populate_idm.yml", "ocp_htpasswd_users.yml", "satellite-server-install.yml", "deploy_vm.yml", "satellite_server_setup.yml", "deploy_tower_vm.yml", "deploy_ocp4.yml", "idm_vm_deployment.yml", "configure-nfs.yml", "requirements-collection.yml", "rhel.yml", "idm_server.yml", "idm_server_cleanup.yml", "deploy_satellite_vm.yml", "openshift_ldap.yml", "deploy_okd4.yml"]}}
+$ curl -k -s https://localhost:5001/api/v1/playbooks -X GET | jq .
+{
+  "status": "OK",
+  "msg": "21 playbook found",
+  "data": {
+    "playbooks": [
+      "tower_server.yml",
+      "qubinode-config-management.yml",
+      "requirements.yml",
+      "redis-server-example.yml",
+      "setup_kvmhost.yml",
+      "populate_idm.yml",
+      "ocp_htpasswd_users.yml",
+      "satellite-server-install.yml",
+      "deploy_vm.yml",
+      "satellite_server_setup.yml",
+      "deploy_tower_vm.yml",
+      "deploy_ocp4.yml",
+      "idm_vm_deployment.yml",
+      "configure-nfs.yml",
+      "requirements-collection.yml",
+      "rhel.yml",
+      "idm_server.yml",
+      "idm_server_cleanup.yml",
+      "deploy_satellite_vm.yml",
+      "openshift_ldap.yml",
+      "deploy_okd4.yml"
+    ]
+  }
+}
+
 ```
 
 5. Deploy Using Ansible Runner API
@@ -116,15 +142,36 @@ Date: Sun, 11 Oct 2020 17:14:03 GMT
 
 **Get status of run**
 ```
-$ curl -k -i https://localhost:5001/api/v1/playbooks/291d72aa-0be5-11eb-91fe-0e2562210695
-HTTP/1.0 200 OK
-Content-Type: application/json
-Content-Length: 750
-Server: Werkzeug/1.0.1 Python/3.8.5
-Date: Sun, 11 Oct 2020 17:14:25 GMT
-
-{"status": "OK", "msg": "successful", "data": {"task": "Run redis container", "task_metadata": {"playbook": "redis-server-example.yml", "playbook_uuid": "f803cee3-0e7e-4be9-bc41-926441607427", "play": "Using Podman collection", "play_uuid": "0e256221-0695-ae3b-344c-000000000005", "play_pattern": "localhost", "task": "Run redis container", "task_uuid": "0e256221-0695-ae3b-344c-000000000007", "task_action": "containers.podman.podman_container", "task_args": "", "task_path": "/home/cloud_user/qubinode-installer/playbooks/redis-server-example.yml:5", "name": "Run redis container", "is_conditional": false, "pid": 3607, "created": "2020-10-11T17:14:07.044947"}, "role": "", "last_task_num": 18, "skipped": 0, "failed": 0, "ok": 2, "failures": {}}}
-
+$ curl -k -s https://localhost:5001/api/v1/playbooks/291d72aa-0be5-11eb-91fe-0e2562210695 | jq .
+{
+  "status": "OK",
+  "msg": "successful",
+  "data": {
+    "task": "Run redis container",
+    "task_metadata": {
+      "playbook": "redis-server-example.yml",
+      "playbook_uuid": "f803cee3-0e7e-4be9-bc41-926441607427",
+      "play": "Using Podman collection",
+      "play_uuid": "0e256221-0695-ae3b-344c-000000000005",
+      "play_pattern": "localhost",
+      "task": "Run redis container",
+      "task_uuid": "0e256221-0695-ae3b-344c-000000000007",
+      "task_action": "containers.podman.podman_container",
+      "task_args": "",
+      "task_path": "/home/cloud_user/qubinode-installer/playbooks/redis-server-example.yml:5",
+      "name": "Run redis container",
+      "is_conditional": false,
+      "pid": 3607,
+      "created": "2020-10-11T17:14:07.044947"
+    },
+    "role": "",
+    "last_task_num": 18,
+    "skipped": 0,
+    "failed": 0,
+    "ok": 2,
+    "failures": {}
+  }
+}
 ```
 
 6. Deploy using Ansible Runner python script
