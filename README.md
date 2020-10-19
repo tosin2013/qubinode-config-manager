@@ -1,7 +1,7 @@
-Qubinode Config Checker 
+Qubinode Config Manager 
 =========
 
-The Qubinode Config Checker will generate the reequired files needed in a deployment. 
+The Qubinode Config Manager will generate the reequired files needed in a deployment. 
 
 Requirements
 ------------

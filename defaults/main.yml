@@ -54,21 +54,30 @@ idm_admin_pwd: ""
 #Cluster information
 cluster_name: qbn
 
-# Network Information
-nat_network_name: "{{ cluster_name }}"
-vm_libvirt_net: "qubinet"
-qubinode_bridge_name: qubibr0
-kvm_bridge_type: Bridge
-kvm_host_bootproto: none
-kvm_host_gw: "{{ ansible_default_ipv4.gateway }}"
-kvm_host_interface: "{{ ansible_default_ipv4.interface }}"
-kvm_host_ip: "{{ ansible_default_ipv4.address }}"
-kvm_host_macaddr: "{{ ansible_default_ipv4.macaddress }}"
-net_mask: "{{ ansible_default_ipv4.network }}/{{ ansible_default_ipv4.netmask }}"
-kvm_host_mask_prefix: "{{ net_mask | ipaddr('prefix') }}"
-kvm_host_netmask: "{{ ansible_default_ipv4.netmask }}"
-vm_net_gateway: "{{ kvm_host_gw }}"
-vm_net_netmask: "{{ kvm_host_netmask }}"
+
+######################
+## Libvirt Storage
+##
+## Set to no if you don't want to configure libvirt storage
+create_libvirt_storage: yes
+## Where to store libvirt VMs disk images
+libvirt_images_dir: /var/lib/libvirt/images
+## Libvirt pool name
+libvirt_pool_name: default
+
+## create libvirt bridge network
+configure_bridge: "{{ configure_bridge }}"
+## name for libvirt bridge network
+libvirt_bridge_name: qubinet
+
+create_lvm: true 
+
+## name for the system bridge ethernet interface
+qubinode_bridge_device: qubibr0
+
+# Network interface name 
+network_interface_name:  "{{ ansible_default_ipv4.interface }}"
+mtu: 1500 
 
 # Ansible Tower Secerts 
 tower_pg_password: ""
