@@ -40,16 +40,30 @@ domain: "example.lab"
 vm_domain: "example.lab"
 public_domain: "example.lab"
 
-# Idm information 
+###################
+# IDM DNS Server  #
+##################
 idm_admin_user: admin
-idm_dm_pwd: ""
-idm_hostname: "{{ instance_prefix }}-dns01"
-ipa_host: "{{ idm_hostname }}.{{ domain }}"
-idm_realm: '{{ domain | upper }}'
-# IdM Secert information 
-idm_ssh_user: ""
-idm_dm_pwd: ""
+deploy_idm_server: yes
+ask_use_existing_idm: yes
+idm_server_name: dns01
+idm_hostname: "{{ instance_prefix }}-{{ idm_server_name }}"
+idm_zone_overlap: false
 idm_admin_pwd: ""
+idm_realm: "{{ domain | upper }}"
+discovered_ip: "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}"
+kvm_host_ip_mask: "{{ host_netmask|default(ansible_default_ipv4.netmask) }}"
+kvm_host_mask_prefix: "{{ netmask_prefix|default(kvm_host_ip_mask | ipaddr('prefix')) }}"
+
+
+idm_user_generated_prefix: "student"
+
+# Default user attributes
+idm_user_pass_expiration: 20290119235959
+idm_user_state: present
+idm_user_shell: "/usr/bin/bash"
+update_idm_user_pass: on_create
+idm_group_type_posix: no
 
 #Cluster information
 cluster_name: qbn
@@ -87,6 +101,9 @@ tower_rabbitmq_password: ""
 vm_teardown: false # defaulting to false 
 cloud_init_vm_image: "{{ qcow_rhel_name }}"
 
+# Default VM network 
+vm_libvirt_net: "{{ vm_libvirt_net }}"
+
 # RHEL SERVER Defaults
 rhel_server_vm:
   rhel_enable: true
@@ -114,3 +131,6 @@ generic_server_vm:
   generic_root_disk_size: 20G
   generic_teardown: false
   generic_vcpu: 1
+
+# Expand os vm disk 
+expand_os_disk: no

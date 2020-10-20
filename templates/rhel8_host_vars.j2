@@ -11,6 +11,7 @@ domain: {{ domain }}
 
 # RHEL Version
 rhel_version: {{ hostvars[inventory_hostname].ansible_distribution_version }}
+rhel_major: 8
 
 # PTR - The PTR record that should be use
 qubinode_ptr: {{ kvm_host_ip.split('.')[2] }}.{{ kvm_host_ip.split('.')[1] }}.{{ kvm_host_ip.split('.')[0]}}.in-addr.arpa.
