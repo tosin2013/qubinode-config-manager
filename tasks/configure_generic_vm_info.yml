@@ -5,3 +5,5 @@
     owner: "{{ admin_user }}"
     group: "{{ admin_user }}"
     mode: 0666
+
+- meta: end_play

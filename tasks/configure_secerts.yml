@@ -18,3 +18,5 @@
   script: "{{ project_dir }}/ansible-vault-manger.sh {{ project_dir }} {{ env_dir }}"
   become: yes
   become_user: "{{ admin_user }}"
+
+- meta: end_play
