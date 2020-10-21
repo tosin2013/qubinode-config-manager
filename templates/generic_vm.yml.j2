@@ -18,4 +18,4 @@ generic_server_vm:
   generic_teardown:  {{ vm_teardown }}
   generic_vcpu:  {{ generic_vcpu }}
 update_etc_resolv:  {{ update_etc_resolv }}
-vm_root_disk_size: '{{ generic_server_vm.generic_root_disk_size }}'
+vm_root_disk_size: '{{ vm_root_disk_size }}'
