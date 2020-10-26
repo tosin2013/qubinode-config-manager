@@ -43,27 +43,21 @@ public_domain: "example.lab"
 ###################
 # IDM DNS Server  #
 ##################
+idm_user_pass_expiration: 20290119235959
+update_idm_user_pass: on_create
 idm_admin_user: admin
 deploy_idm_server: yes
 ask_use_existing_idm: yes
 idm_server_name: dns01
+idm_user_generated_prefix: "student"
 idm_hostname: "{{ instance_prefix }}-{{ idm_server_name }}"
 idm_zone_overlap: false
 idm_admin_pwd: ""
 idm_realm: "{{ domain | upper }}"
-discovered_ip: "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}"
+discovered_ip: "{{ ansible_default_ipv4.address }}"
+kvm_host_ip: "{{ discovered_ip }}"
 kvm_host_ip_mask: "{{ host_netmask|default(ansible_default_ipv4.netmask) }}"
 kvm_host_mask_prefix: "{{ netmask_prefix|default(kvm_host_ip_mask | ipaddr('prefix')) }}"
-
-
-idm_user_generated_prefix: "student"
-
-# Default user attributes
-idm_user_pass_expiration: 20290119235959
-idm_user_state: present
-idm_user_shell: "/usr/bin/bash"
-update_idm_user_pass: on_create
-idm_group_type_posix: no
 
 #Cluster information
 cluster_name: qbn
@@ -78,9 +72,12 @@ create_libvirt_storage: yes
 libvirt_images_dir: /var/lib/libvirt/images
 ## Libvirt pool name
 libvirt_pool_name: default
+kvm_host_bootproto: none
 
 ## create libvirt bridge network
-configure_bridge: "{{ configure_bridge }}"
+configure_bridge: true
+kvm_bridge_type: Bridge
+
 ## name for libvirt bridge network
 libvirt_bridge_name: qubinet
 
@@ -88,6 +85,7 @@ create_lvm: true
 
 ## name for the system bridge ethernet interface
 qubinode_bridge_device: qubibr0
+qubinode_bridge_name: qubibr0
 
 # Network interface name 
 network_interface_name:  "{{ ansible_default_ipv4.interface }}"
@@ -102,7 +100,7 @@ vm_teardown: false # defaulting to false
 cloud_init_vm_image: "{{ qcow_rhel_name }}"
 
 # Default VM network 
-vm_libvirt_net: "{{ vm_libvirt_net }}"
+vm_libvirt_net: "qubinet"
 
 # RHEL SERVER Defaults
 rhel_server_vm:

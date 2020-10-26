@@ -10,6 +10,8 @@ project_dir: {{ project_dir }}
 
 ## set this to create a dedicated LVM for libvirt dir pool
 kvm_host_libvirt_extra_disk: "{{ kvm_host_libvirt_extra_disk }}"
+## Local to storage VM qcow disk
+kvm_vm_pool_dir: "/var/lib/libvirt/images"
 
 ## Set to no prevent the installer from attempting
 ## setup a LVM group for qubinode. Also set this to no
@@ -19,18 +21,25 @@ libvirt_images_dir: "{{ libvirt_images_dir }}"
 libvirt_pool_name: "{{ libvirt_pool_name }}"
 
 ## admin user - required if configure_bash_profile is set to yes
-admin_user: "{{ admin_user }}"
+admin_user: {{ admin_user }}
 
 ## configure admin user bash profile
 configure_bash_profile: "{{ configure_bash_profile }}"
 
-## create libvirt bridge network
-configure_bridge: "{{ configure_bridge }}"
+#This is for KVM host initial setup of /etc/resolv.conf
+kvm_host_dns_server: {{ idm_server_ip | default('1.1.1.1') }}
+kvm_bridge_type: {{ kvm_bridge_type }}
+kvm_host_domain: {{ domain }}
+kvm_host_bootproto: {{ kvm_host_bootproto }}
 
+## create libvirt bridge network
+configure_bridge: {{ configure_bridge }}
+qubinode_bridge_name: {{ qubinode_bridge_name }}
 ## configure host_device
 host_device: "{{ libvirt_dev }}"
 vg_name: vg_qubi
-create_lvm: "{{ create_lvm }}"
+create_lvm: {{ create_lvm }}
+
 
 network_interface_name: "{{ network_interface_name }}"
 {% if  configure_static_ip %}
@@ -48,3 +57,4 @@ host_netmask: "{{ host_netmask }}"
 mac_address: "{{ mac_address }}"
 {% endif %}
 mtu: "{{ mtu }}"
+
